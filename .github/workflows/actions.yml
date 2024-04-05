@@ -27,7 +27,7 @@ jobs:
     
     - name: Upload to MongoDB
       working-directory: ./downloads
-      run: python mongo_import.py -c players -i ../file.jl -u "${{secrets.MONGODB_URI}}"
+      run: python mongo_import.py -c players -i file.jl -u "${{secrets.MONGODB_URI}}"
 
     - name: Build Model
       working-directory: ./model
