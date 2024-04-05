@@ -1,0 +1,37 @@
+name: Scrape Data, build and upload Model
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout repository
+      uses: actions/checkout@v4 # Checkout the repository to the runner
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12.1'
+        cache: 'pip'
+
+    - name: Install python packages
+      run: pip install -r requirements.txt
+
+    - name: Scrape Data
+      run: python scraping.py
+    
+    - name: Upload to MongoDB
+      working-directory: downloads
+      run: python ./mongo_import.py -c players -i ../file.jl -u "${{secrets.MONGODB_URI}}"
+
+    - name: Build Model
+      working-directory: model
+      run: python ./model.py -u "${{secrets.MONGODB_URI}}" -d 'players' -c 'players'
+
+    - name: Upload Model
+      working-directory: model
+      run: python ./save.py -c "${{secrets.AZURE_STORAGE_CONNECTION_STRING}}"
