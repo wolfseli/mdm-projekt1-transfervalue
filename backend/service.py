@@ -94,4 +94,3 @@ def predict():
     response = {'Value': predicted_value[0]}
     
     return jsonify(response)
-

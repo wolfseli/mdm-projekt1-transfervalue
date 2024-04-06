@@ -1,6 +1,9 @@
 # Usage
 # docker build -t wolfseli/transfervalue .
-# docker run --name transfervalue -e AZURE_STORAGE_CONNECTION_STRING='***' -p 9001:5000 -d wolfseli/transfervalue
+# docker run --name transfervalue -e AZURE_STORAGE_CONNECTION_STRING='***' -p 9001:80 -d wolfseli/transfervalue
+# docker push wolfseli/transfervalue:latest
+# az container create --resource-group mdm-transfervalue --name mdm-transfervalue --image wolfseli/mdm-transfervalue:latest --dns-name-label mdm-transfervalue --ports 80 --environment-variables AZURE_STORAGE_CONNECTION_STRING='***'
+
 
 FROM python:3.12.1
 
